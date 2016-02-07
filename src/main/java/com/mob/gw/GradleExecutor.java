@@ -25,7 +25,7 @@ public class GradleExecutor {
 
 			os = os.toLowerCase();
 
-			if (os.equals("windows")) {
+			if (os.startsWith("windows")) {
 				executable = executable + ".bat";
 			}
 

@@ -14,6 +14,8 @@ public class GradleWrapper {
 		}
 		catch (Exception e) {
 			System.err.println("Error executing gradle wrapper");
+			
+			e.printStackTrace();
 		}
 	}
 }
