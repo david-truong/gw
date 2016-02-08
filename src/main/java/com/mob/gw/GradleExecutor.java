@@ -15,9 +15,7 @@ public class GradleExecutor {
 			return executable;
 		}
 
-		String currentPath = System.getProperty("user.dir");
-
-		File dir = new File(currentPath);
+		File dir = new File(WORKING_DIR);
 
 		File gradlew = findGradleWrapper(dir);
 
@@ -65,10 +63,13 @@ public class GradleExecutor {
 
 		processBuilder.command(commands);
 
+		processBuilder.directory(new File(WORKING_DIR));
+
 		Process process = processBuilder.start();
 
 		return process.waitFor();
 	}
 
 	private String executable;
+	private static String WORKING_DIR = System.getProperty("user.dir");
 }
