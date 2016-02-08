@@ -1,6 +1,9 @@
 package com.mob.gw;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by dtruong on 1/26/16.
@@ -55,13 +58,12 @@ public class GradleExecutor {
 
 		processBuilder.inheritIO();
 
-		StringBuffer sb = new StringBuffer(args.length);
+		List<String> commands = new ArrayList<>(args.length + 1);
 
-		for (String arg : args) {
-			sb.append(arg);
-		}
+		commands.add(getExecutable());
+		commands.addAll(Arrays.asList(args));
 
-		processBuilder.command(getExecutable(), sb.toString());
+		processBuilder.command(commands);
 
 		Process process = processBuilder.start();
 
