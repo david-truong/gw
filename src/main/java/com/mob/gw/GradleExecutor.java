@@ -10,14 +10,11 @@ import java.util.List;
  */
 public class GradleExecutor {
 
-	private String getExecutable() throws Exception {
-		if (executable != null && !executable.equals("")) {
-			return executable;
-		}
-
-		File dir = new File(WORKING_DIR);
+	private String getExecutable(File dir) throws Exception {
 
 		File gradlew = findGradleWrapper(dir);
+
+		String executable = "gradle";
 
 		if (gradlew.exists()) {
 			executable = gradlew.getCanonicalPath();
@@ -29,12 +26,9 @@ public class GradleExecutor {
 			if (os.startsWith("windows")) {
 				executable = executable + ".bat";
 			}
+		}
 
-			return executable;
-		}
-		else {
-			return executable = "gradle";
-		}
+		return executable;
 	}
 
 	private File findGradleWrapper(File dir) {
@@ -52,24 +46,23 @@ public class GradleExecutor {
 	}
 
 	public int execute(String[] args) throws Exception {
+		File currentDir = new File(System.getProperty("user.dir"));
+
 		ProcessBuilder processBuilder = new ProcessBuilder();
 
 		processBuilder.inheritIO();
 
 		List<String> commands = new ArrayList<>(args.length + 1);
 
-		commands.add(getExecutable());
+		commands.add(getExecutable(currentDir));
 		commands.addAll(Arrays.asList(args));
 
 		processBuilder.command(commands);
 
-		processBuilder.directory(new File(WORKING_DIR));
+		processBuilder.directory(currentDir);
 
 		Process process = processBuilder.start();
 
 		return process.waitFor();
 	}
-
-	private String executable;
-	private static String WORKING_DIR = System.getProperty("user.dir");
 }
