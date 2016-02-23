@@ -1,10 +1,10 @@
-package com.mob.gw;
+package com.liferay.gw;
 
 import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * Created by dtruong on 1/26/16.
+ * @author David Truong
  */
 public class GradleWrapperTest {
 	@Test

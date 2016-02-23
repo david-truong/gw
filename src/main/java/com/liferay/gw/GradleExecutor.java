@@ -1,4 +1,4 @@
-package com.mob.gw;
+package com.liferay.gw;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by dtruong on 1/26/16.
+ * @author David Truong
  */
 public class GradleExecutor {
 
@@ -52,7 +52,7 @@ public class GradleExecutor {
 
 		processBuilder.inheritIO();
 
-		List<String> commands = new ArrayList<>(args.length + 1);
+		List<String> commands = new ArrayList<>();
 
 		commands.add(getExecutable(currentDir));
 		commands.addAll(Arrays.asList(args));

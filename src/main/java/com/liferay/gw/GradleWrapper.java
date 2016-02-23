@@ -1,4 +1,4 @@
-package com.mob.gw;
+package com.liferay.gw;
 
 import java.io.File;
 
