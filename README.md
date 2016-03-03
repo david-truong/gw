@@ -2,7 +2,7 @@
 
 ## Installation
 
-Install via JPM
+Install via JPM: jpm install gw
 
 ## Usage
 
