@@ -56,7 +56,7 @@ publishing {
 			artifact javadocJar
 			groupId 'com.liferay'
 			artifactId 'gw'
-			version '1.0.0'
+			version '1.0.1'
 		}
 	}
 }
@@ -72,9 +72,9 @@ bintray {
 		vcsUrl = 'https://github.com/david-truong/gw.git'
 		labels = ['gradle', 'gradle_wrapper']
 		version {
-			name = '1.0.0'
+			name = '1.0.1'
 			desc = 'Universal Gradle Wrapper command'
-			vcsTag = '1.0.0'
+			vcsTag = '1.0.1'
 		}
 	}
 }
