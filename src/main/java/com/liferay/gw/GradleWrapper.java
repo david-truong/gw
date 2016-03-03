@@ -1,7 +1,5 @@
 package com.liferay.gw;
 
-import java.io.File;
-
 /**
  * @author David Truong
  */

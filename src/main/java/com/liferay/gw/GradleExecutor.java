@@ -48,17 +48,15 @@ public class GradleExecutor {
 	public int execute(String[] args) throws Exception {
 		File currentDir = new File(System.getProperty("user.dir"));
 
-		ProcessBuilder processBuilder = new ProcessBuilder();
-
-		processBuilder.inheritIO();
-
 		List<String> commands = new ArrayList<>();
 
 		commands.add(getExecutable(currentDir));
 		commands.addAll(Arrays.asList(args));
 
-		processBuilder.command(commands);
+		ProcessBuilder processBuilder = new ProcessBuilder();
 
+		processBuilder.inheritIO();
+		processBuilder.command(commands);
 		processBuilder.directory(currentDir);
 
 		Process process = processBuilder.start();
