@@ -33,6 +33,10 @@ task release(type: Copy) {
 	into 'release'
 }
 
+build {
+	dependsOn release
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
