@@ -16,7 +16,7 @@ public class GradleExecutor {
 
 		String executable = "gradle";
 
-		if (gradlew.exists()) {
+		if (gradlew != null && gradlew.exists()) {
 			executable = gradlew.getCanonicalPath();
 
 			String os = System.getProperty("os.name");
