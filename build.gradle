@@ -1,17 +1,7 @@
-buildscript {
-	repositories {
-		jcenter()
-	}
-	dependencies {
-		classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:3.0.0'
-	}
-}
-
 plugins {
 	id "com.jfrog.bintray" version "1.6"
 }
 
-apply plugin: 'biz.aQute.bnd.builder'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
@@ -28,13 +18,14 @@ dependencies {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-task release(type: Copy) {
-	from jar
-	into 'release'
-}
+def projectVersion = '1.0.2'
 
-build {
-	dependsOn release
+jar {
+    manifest {
+        attributes("Bundle-Version": projectVersion,
+                   "JPM-Command": "gw",
+ 								   "Main-Class": "com.liferay.gw.GradleWrapper")
+    }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -60,7 +51,7 @@ publishing {
 			artifact javadocJar
 			groupId 'com.liferay'
 			artifactId 'gw'
-			version '1.0.1'
+			version projectVersion
 		}
 	}
 }
@@ -76,9 +67,9 @@ bintray {
 		vcsUrl = 'https://github.com/david-truong/gw.git'
 		labels = ['gradle', 'gradle_wrapper']
 		version {
-			name = '1.0.1'
+			name = projectVersion
 			desc = 'Universal Gradle Wrapper command'
-			vcsTag = '1.0.1'
+			vcsTag = projectVersion
 		}
 	}
 }
