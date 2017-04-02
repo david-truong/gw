@@ -1,0 +1,3 @@
+#!/bin/bash
+# Run gw
+java -jar ##PREFIX##/gw.jar "$@"
