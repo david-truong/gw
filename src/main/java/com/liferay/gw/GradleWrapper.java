@@ -25,14 +25,20 @@ public class GradleWrapper {
 	public static void main(String[] args) {
 		WrapperExecutor wrapperExecutor = new WrapperExecutor("gradlew");
 
+		int exitCode = 0;
+
 		try {
-			wrapperExecutor.execute(args);
+			exitCode = wrapperExecutor.execute(args);
 		}
 		catch (Exception e) {
 			System.err.println("Error executing gradle wrapper");
 
 			e.printStackTrace();
+
+			exitCode = -1;
 		}
+
+		System.exit(exitCode);
 	}
 
 }
