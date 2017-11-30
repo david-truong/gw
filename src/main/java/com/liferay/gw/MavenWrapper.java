@@ -1,12 +1,11 @@
 package com.liferay.gw;
 
 /**
- * @author David Truong
  * @author Gregory Amerson
  */
-public class GradleWrapper {
+public class MavenWrapper {
 	public static void main(String[] args) {
-		WrapperExecutor wrapperExecutor = new WrapperExecutor("gradlew");
+		WrapperExecutor wrapperExecutor = new WrapperExecutor("mvnw");
 
 		try {
 			wrapperExecutor.execute(args);
