@@ -38,6 +38,19 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 	from javadoc.destinationDir
 }
 
+task mavenWrapperJar(type: Jar, dependsOn: compileJava) {
+	from sourceSets.main.output
+	archiveName = "mw"
+	manifest {
+        attributes(
+       		"Bundle-Version": projectVersion,
+    			"JPM-Command": "mw",
+ 			"Main-Class": "com.liferay.gw.MavenWrapper")
+	}
+}
+
+assemble.dependsOn mavenWrapperJar
+
 artifacts {
 	archives sourcesJar
 	archives javadocJar
@@ -45,12 +58,19 @@ artifacts {
 
 publishing {
 	publications {
-		MyPublication(MavenPublication) {
+		GwPublication(MavenPublication) {
 			from components.java
 			artifact sourcesJar
 			artifact javadocJar
 			groupId 'com.liferay'
 			artifactId 'gw'
+			version projectVersion
+		}
+		MwPublication(MavenPublication) {
+			from components.java
+			artifact mavenWrapperJar
+			groupId 'com.liferay'
+			artifactId 'mw'
 			version projectVersion
 		}
 	}
@@ -59,7 +79,7 @@ publishing {
 bintray {
 	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
 	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-	publications = ['MyPublication']
+	publications = ['GwPublication', 'MwPublication']
 	pkg {
 		repo = 'maven'
 		name = 'gw'
