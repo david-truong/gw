@@ -1,8 +1,25 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.liferay.gw;
 
 import java.io.File;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,33 +28,31 @@ import java.util.List;
  */
 public class WrapperExecutor {
 
-	private String _executableName;
-
 	public WrapperExecutor(String executableName) {
 		_executableName = executableName;
 	}
 
-	private String getExecutable(File dir) throws Exception {
-		String executable = null;
+	public int execute(String[] args) throws Exception {
+		File currentDir = new File(System.getProperty("user.dir"));
 
-		File wrapper = findWrapper(dir);
+		List<String> commands = new ArrayList<>();
 
-		if (wrapper != null && wrapper.exists()) {
-			executable = wrapper.getCanonicalPath();
+		commands.add(_getExecutable(currentDir));
 
-			String os = System.getProperty("os.name");
+		Collections.addAll(commands, args);
 
-			os = os.toLowerCase();
+		ProcessBuilder processBuilder = new ProcessBuilder();
 
-			if (os.startsWith("windows")) {
-				executable = findWindowsWrapper(wrapper.getAbsoluteFile());
-			}
-		}
+		processBuilder.inheritIO();
+		processBuilder.command(commands);
+		processBuilder.directory(currentDir);
 
-		return executable;
+		Process process = processBuilder.start();
+
+		return process.waitFor();
 	}
 
-	private String findWindowsWrapper(File dir) {
+	private String _findWindowsWrapper(File dir) {
 		if (dir == null) {
 			return null;
 		}
@@ -57,7 +72,7 @@ public class WrapperExecutor {
 		return retval;
 	}
 
-	private File findWrapper(File dir) {
+	private File _findWrapper(File dir) {
 		if (dir == null) {
 			return null;
 		}
@@ -68,25 +83,29 @@ public class WrapperExecutor {
 			return wrapper;
 		}
 
-		return findWrapper(dir.getParentFile());
+		return _findWrapper(dir.getParentFile());
 	}
 
-	public int execute(String[] args) throws Exception {
-		File currentDir = new File(System.getProperty("user.dir"));
+	private String _getExecutable(File dir) throws Exception {
+		String executable = null;
 
-		List<String> commands = new ArrayList<>();
+		File wrapper = _findWrapper(dir);
 
-		commands.add(getExecutable(currentDir));
-		commands.addAll(Arrays.asList(args));
+		if ((wrapper != null) && wrapper.exists()) {
+			executable = wrapper.getCanonicalPath();
 
-		ProcessBuilder processBuilder = new ProcessBuilder();
+			String os = System.getProperty("os.name");
 
-		processBuilder.inheritIO();
-		processBuilder.command(commands);
-		processBuilder.directory(currentDir);
+			os = os.toLowerCase();
 
-		Process process = processBuilder.start();
+			if (os.startsWith("windows")) {
+				executable = _findWindowsWrapper(wrapper.getAbsoluteFile());
+			}
+		}
 
-		return process.waitFor();
+		return executable;
 	}
+
+	private String _executableName;
+
 }
