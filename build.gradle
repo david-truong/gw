@@ -1,3 +1,12 @@
+buildscript {
+	dependencies {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.source.formatter", version: "latest.release"
+	}
+
+	repositories {
+		mavenCentral()
+	}
+}
 plugins {
 	id "com.jfrog.bintray" version "1.6"
 }
@@ -6,6 +15,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'com.liferay.source.formatter'
 
 repositories {
 	jcenter()
@@ -19,6 +29,10 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 def projectVersion = '1.0.2'
+
+formatSource {
+	maxLineLength = 120
+}
 
 jar {
     manifest {
