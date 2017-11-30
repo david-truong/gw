@@ -51,7 +51,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 task mavenWrapperJar(type: Jar, dependsOn: compileJava) {
 	from sourceSets.main.output
-	archiveName = "mw"
+	archiveName = "mw.jar"
 	manifest {
 		attributes(
 			"Bundle-Version": projectVersion,
