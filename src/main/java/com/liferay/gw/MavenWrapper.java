@@ -24,14 +24,20 @@ public class MavenWrapper {
 	public static void main(String[] args) {
 		WrapperExecutor wrapperExecutor = new WrapperExecutor("mvnw");
 
+		int exitCode = 0;
+
 		try {
-			wrapperExecutor.execute(args);
+			exitCode = wrapperExecutor.execute(args);
 		}
 		catch (Exception e) {
 			System.err.println("Error executing maven wrapper");
 
 			e.printStackTrace();
+
+			exitCode = -1;
 		}
+
+		System.exit(exitCode);
 	}
 
 }
