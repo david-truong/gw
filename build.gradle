@@ -25,17 +25,17 @@ dependencies {
 	testCompile group: "junit", name: "junit", version: "4.12"
 }
 
-def projectVersion = '1.0.2'
-
 formatSource {
 	maxLineLength = 120
 }
 
 jar {
 	manifest {
-		attributes("Bundle-Version": projectVersion,
+		attributes(
+			"Bundle-Version": project.version,
 			"JPM-Command": "gw",
-								   "Main-Class": "com.liferay.gw.GradleWrapper")
+			"Main-Class": "com.liferay.gw.GradleWrapper"
+		)
 	}
 }
 
@@ -54,9 +54,10 @@ task mavenWrapperJar(type: Jar, dependsOn: compileJava) {
 	archiveName = "mw.jar"
 	manifest {
 		attributes(
-			"Bundle-Version": projectVersion,
+			"Bundle-Version": project.version,
 			"JPM-Command": "mw",
-			"Main-Class": "com.liferay.gw.MavenWrapper")
+			"Main-Class": "com.liferay.gw.MavenWrapper"
+		)
 	}
 }
 
@@ -73,16 +74,12 @@ publishing {
 			from components.java
 			artifact sourcesJar
 			artifact javadocJar
-			groupId 'com.liferay'
 			artifactId 'gw'
-			version projectVersion
 		}
 		MwPublication(MavenPublication) {
 			from components.java
 			artifact mavenWrapperJar
-			groupId 'com.liferay'
 			artifactId 'mw'
-			version projectVersion
 		}
 	}
 }
@@ -98,12 +95,14 @@ bintray {
 		vcsUrl = 'https://github.com/david-truong/gw.git'
 		labels = ['gradle', 'gradle_wrapper']
 		version {
-			name = projectVersion
+			name = project.version
 			desc = 'Universal Gradle Wrapper command'
-			vcsTag = projectVersion
+			vcsTag = project.version
 		}
 	}
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+group = "com.liferay"
+version = '1.0.2'
