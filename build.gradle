@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.liferay.source.formatter'
 apply plugin: 'idea'
+apply plugin: 'eclipse'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
