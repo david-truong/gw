@@ -17,9 +17,7 @@
 package com.liferay.gw;
 
 import java.io.File;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,7 +37,14 @@ public class WrapperExecutor {
 
 		commands.add(_getExecutable(currentDir));
 
-		Collections.addAll(commands, args);
+		for (String arg : args) {
+			if (_executableName.equals("gradlew") && !arg.startsWith("-") && arg.contains(File.separator)) {
+				commands.add(arg.replace(File.separatorChar, ':'));
+			}
+			else {
+				commands.add(arg);
+			}
+		}
 
 		ProcessBuilder processBuilder = new ProcessBuilder();
 
