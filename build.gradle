@@ -2,16 +2,22 @@ buildscript {
 	dependencies {
 		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.source.formatter", version: "latest.release"
 		classpath group: "com.jfrog.bintray.gradle", name: "gradle-bintray-plugin", version: "1.7.3"
+		classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.6.0-112-gca0b727"
 	}
 
 	repositories {
 		mavenCentral()
 		jcenter()
+
+		maven {
+	      url "https://plugins.gradle.org/m2/"
+	    }
 	}
 }
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.liferay.source.formatter'
+apply plugin: 'com.palantir.graal'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
@@ -67,6 +73,11 @@ assemble.dependsOn mavenWrapperJar
 artifacts {
 	archives sourcesJar
 	archives javadocJar
+}
+
+graal {
+	mainClass "com.liferay.gw.GradleWrapper"
+	outputName 'gw'
 }
 
 publishing {
