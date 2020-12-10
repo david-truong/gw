@@ -2,7 +2,7 @@ buildscript {
 	dependencies {
 		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.source.formatter", version: "latest.release"
 		classpath group: "com.jfrog.bintray.gradle", name: "gradle-bintray-plugin", version: "1.7.3"
-		classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.6.0-112-gca0b727"
+		classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.7.2"
 	}
 
 	repositories {
@@ -80,7 +80,21 @@ graal {
 	outputName 'gw'
 }
 
+build {
+	dependsOn nativeImage
+}
+
 publishing {
+	repositories {
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/OWNER/REPOSITORY")
+			credentials {
+				username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
+				password = project.findProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
+			}
+		}
+	}
 	publications {
 		GwPublication(MavenPublication) {
 			from components.java
@@ -92,24 +106,6 @@ publishing {
 			from components.java
 			artifact mavenWrapperJar
 			artifactId 'mw'
-		}
-	}
-}
-
-bintray {
-	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
-	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
-	publications = ['GwPublication', 'MwPublication']
-	pkg {
-		repo = 'maven'
-		name = 'gw'
-		licenses = ['Apache-2.0']
-		vcsUrl = 'https://github.com/david-truong/gw.git'
-		labels = ['gradle', 'gradle_wrapper']
-		version {
-			name = project.version
-			desc = 'Universal Gradle Wrapper command'
-			vcsTag = project.version
 		}
 	}
 }
