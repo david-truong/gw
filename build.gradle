@@ -36,6 +36,10 @@ formatSource {
 	maxLineLength = 120
 }
 
+graal {
+	graalVersion "21.0.0.2"
+}
+
 jar {
 	manifest {
 		attributes(
