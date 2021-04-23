@@ -117,4 +117,4 @@ publishing {
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
 group = "com.liferay"
-version = '1.0.3-SNAPSHOT'
+version = '1.0.6-SNAPSHOT'
