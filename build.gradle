@@ -127,4 +127,4 @@ publishing {
 }
 
 group = "com.liferay"
-version = '1.0.3-SNAPSHOT'
+version = '1.0.7-SNAPSHOT'
