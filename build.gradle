@@ -2,7 +2,7 @@ buildscript {
 	dependencies {
 		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.source.formatter", version: "1.0.100"
 		classpath group: "com.jfrog.bintray.gradle", name: "gradle-bintray-plugin", version: "1.7.3"
-		classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.7.2"
+		classpath group: "gradle.plugin.com.palantir.graal", name: "gradle-graal", version: "0.7.2"
 	}
 
 	repositories {
@@ -10,8 +10,8 @@ buildscript {
 		jcenter()
 
 		maven {
-	      url "https://plugins.gradle.org/m2/"
-	    }
+			url "https://plugins.gradle.org/m2/"
+		}
 
 		maven {
 			url "https://repo.grails.org/grails/core/"
@@ -22,8 +22,8 @@ buildscript {
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.liferay.source.formatter'
 apply plugin: 'com.palantir.graal'
-apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-	testCompile group: "junit", name: "junit", version: "4.12"
+	testImplementation group: "junit", name: "junit", version: "4.12"
 }
 
 formatSource {
@@ -54,17 +54,19 @@ jar {
 	}
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
-}
+task javadocJar(type: Jar, dependsOn: javadoc)
+task mavenWrapperJar(type: Jar, dependsOn: compileJava)
+task sourcesJar(type: Jar, dependsOn: classes)
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+javadocJar {
 	classifier = 'javadoc'
 	from javadoc.destinationDir
 }
 
-task mavenWrapperJar(type: Jar, dependsOn: compileJava) {
+mavenWrapperJar {
 	from sourceSets.main.output
 	archiveName = "mw.jar"
 	manifest {
@@ -73,7 +75,13 @@ task mavenWrapperJar(type: Jar, dependsOn: compileJava) {
 			"JPM-Command": "mw",
 			"Main-Class": "com.liferay.gw.MavenWrapper"
 		)
+
 	}
+}
+
+sourcesJar {
+	classifier = 'sources'
+	from sourceSets.main.allSource
 }
 
 assemble.dependsOn mavenWrapperJar
@@ -118,7 +126,5 @@ publishing {
 	}
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
 group = "com.liferay"
 version = '1.0.3-SNAPSHOT'

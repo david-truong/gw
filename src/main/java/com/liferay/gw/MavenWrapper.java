@@ -29,10 +29,10 @@ public class MavenWrapper {
 		try {
 			exitCode = wrapperExecutor.execute(args);
 		}
-		catch (Exception e) {
+		catch (Exception exception) {
 			System.err.println("Error executing maven wrapper");
 
-			e.printStackTrace();
+			exception.printStackTrace();
 
 			exitCode = -1;
 		}

@@ -30,10 +30,10 @@ public class GradleWrapper {
 		try {
 			exitCode = wrapperExecutor.execute(args);
 		}
-		catch (Exception e) {
+		catch (Exception exception) {
 			System.err.println("Error executing gradle wrapper");
 
-			e.printStackTrace();
+			exception.printStackTrace();
 
 			exitCode = -1;
 		}
